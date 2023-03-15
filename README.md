@@ -72,3 +72,5 @@ npm install
 * [Axios Package](https://www.npmjs.com/package/axios)
 * [Cheerio Package](https://www.npmjs.com/package/cheerio)
 * [Cron Package](https://www.npmjs.com/package/cron)
+* [Throttler Package](https://www.npmjs.com/package/telegraf-throttler)
+* [Dayjs Package](https://www.npmjs.com/package/dayjs)
