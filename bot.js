@@ -40,47 +40,58 @@ async function setInstantWeatherData() {
   for (var i = instantweather.length; i > 0; i--) {
     instantweather.shift();
    }
-    WeatherData.temperature = $('body div:first main div:nth-child(2) main div:nth-child(1) div section div div:nth-child(2) div:nth-child(1) div:first span:first ').text().trim();
-    WeatherData.status = $('body div:first main div:nth-child(2) main div:nth-child(1) div section div div:nth-child(2) div:nth-child(1) div:last svg title ').text().trim(); 
-    WeatherData.highlow = $('body div:first main div:nth-child(2) main div:nth-child(1) div section div div:nth-child(2) div:nth-child(1) div:first div:nth-child(3) ').text().trim();
-    WeatherData.time = $('body div:first main div:nth-child(2) main div:nth-child(1) div section div div:nth-child(1) span:first').text().trim().replace(" GMT+03:00 itibariyle", "");
-    WeatherData.rain = $('body div:first main div:nth-child(2) main div:nth-child(2) section div:first div h2').text().trim();
-    WeatherData.rainstatus = $('body div:first main div:nth-child(2) main div:nth-child(2) section div:first div p').text().trim().replace("olasılığı", "bekleniyor").replace("olası", "bekleniyor");
+   $('body').each((index, element) => { 
 
+    $(element).find('div:first main div:nth-child(2) main').each((index, element) => {
+    WeatherData.temperature = $(element).find('div:nth-child(1) div section div div:nth-child(2) div:nth-child(1) div:first span:first ').text().trim();
+    WeatherData.status = $(element).find('div:nth-child(1) div section div div:nth-child(2) div:nth-child(1) div:last svg title ').text().trim(); 
+    WeatherData.highlow = $(element).find('main div:nth-child(1) div section div div:nth-child(2) div:nth-child(1) div:first div:nth-child(3) ').text().trim();
+    WeatherData.time = $(element).find('main div:nth-child(1) div section div div:nth-child(1) span:first').text().trim().replace(" GMT+03:00 itibariyle", "");
+    WeatherData.rain = $(element).find('main div:nth-child(2) section div:first div h2').text().trim();
+    WeatherData.rainstatus = $(element).find('main div:nth-child(2) section div:first div p').text().trim().replace("olasılığı", "bekleniyor").replace("olası", "bekleniyor");
+    });
 
-    WeatherData.snowfall = $('body div:first main div:nth-child(2) main div:nth-child(4) section div h2').text().trim().replace("Kar", "❄️ *Kar").replace("yağışı", "Yağış").replace("Miktarları", "Miktarı* ❄️");
-    WeatherData.snows_1 = $('body div:first main div:nth-child(2) main div:nth-child(4) section ul li:nth-child(1) h3').text().trim().replace("Sa.", "hour içinde ~");
-    WeatherData.snowfall_1 = $('body div:first main div:nth-child(2) main div:nth-child(4) section ul li:nth-child(1) p span').text().trim().replace("< ", "").replace(" cm", "");
-    WeatherData.snows_2 = $('body div:first main div:nth-child(2) main div:nth-child(4) section ul li:nth-child(2) h3').text().trim().replace("Sa.", "hour içinde ~");
-    WeatherData.snowfall_2 = $('body div:first main div:nth-child(2) main div:nth-child(4) section ul li:nth-child(2) p span').text().trim().replace("< ", "").replace(" cm", "");
-    WeatherData.snows_3 = $('body div:first main div:nth-child(2) main div:nth-child(4) section ul li:nth-child(3) h3').text().trim().replace("Sa.", "hour içinde ~");
-    WeatherData.snowfall_3 = $('body div:first main div:nth-child(2) main div:nth-child(4) section ul li:nth-child(3) p span').text().trim().replace("< ", "").replace(" cm", "");
-    WeatherData.snows_4 = $('body div:first main div:nth-child(2) main div:nth-child(4) section ul li:nth-child(4) h3').text().trim().replace("Sa.", "hour içinde ~");
-    WeatherData.snowfall_4 = $('body div:first main div:nth-child(2) main div:nth-child(4) section ul li:nth-child(4) p span').text().trim().replace("< ", "").replace(" cm", "");
-    WeatherData.snows_5 = $('body div:first main div:nth-child(2) main div:nth-child(4) section ul li:nth-child(5) h3').text().trim().replace("Sa.", "hour içinde ~");
-    WeatherData.snowfall_5 = $('body div:first main div:nth-child(2) main div:nth-child(4) section ul li:nth-child(5) p span').text().trim().replace("< ", "").replace(" cm", "");
-    WeatherData.snows_6 = $('body div:first main div:nth-child(2) main div:nth-child(4) section ul li:nth-child(6) h3').text().trim().replace("Sa.", "hour içinde ~");
-    WeatherData.snowfall_6 = $('body div:first main div:nth-child(2) main div:nth-child(4) section ul li:nth-child(6) p span').text().trim().replace("< ", "").replace(" cm", "");
-
+    $(element).find('div:first main div:nth-child(2) main div:nth-child(4) section').each((index, element) => {
+    WeatherData.snowfall = $(element).find('div h2').text().trim().replace("Kar", "❄️ *Kar").replace("yağışı", "Yağış").replace("Miktarları", "Miktarı* ❄️");
+    WeatherData.snows_1 = $(element).find('ul li:nth-child(1) h3').text().trim().replace("Sa.", "hour içinde ~");
+    WeatherData.snowfall_1 = $(element).find('ul li:nth-child(1) p span').text().trim().replace("< ", "").replace(" cm", "");
+    WeatherData.snows_2 = $(element).find('ul li:nth-child(2) h3').text().trim().replace("Sa.", "hour içinde ~");
+    WeatherData.snowfall_2 = $(element).find('ul li:nth-child(2) p span').text().trim().replace("< ", "").replace(" cm", "");
+    WeatherData.snows_3 = $(element).find('ul li:nth-child(3) h3').text().trim().replace("Sa.", "hour içinde ~");
+    WeatherData.snowfall_3 = $(element).find('ul li:nth-child(3) p span').text().trim().replace("< ", "").replace(" cm", "");
+    WeatherData.snows_4 = $(element).find('ul li:nth-child(4) h3').text().trim().replace("Sa.", "hour içinde ~");
+    WeatherData.snowfall_4 = $(element).find('ul li:nth-child(4) p span').text().trim().replace("< ", "").replace(" cm", "");
+    WeatherData.snows_5 = $(element).find('ul li:nth-child(5) h3').text().trim().replace("Sa.", "hour içinde ~");
+    WeatherData.snowfall_5 = $(element).find('ul li:nth-child(5) p span').text().trim().replace("< ", "").replace(" cm", "");
+    WeatherData.snows_6 = $(element).find('ul li:nth-child(6) h3').text().trim().replace("Sa.", "hour içinde ~");
+    WeatherData.snowfall_6 = $(element).find('ul li:nth-child(6) p span').text().trim().replace("< ", "").replace(" cm", "");
+    });
+    
     if (WeatherData.rain == "Yağmur" || WeatherData.rain == "Kar" || WeatherData.rain == "Karla Karışık Yağmur") 
     {
-      WeatherData.feelslike = $('body div:first main div:nth-child(2) main div:nth-child(6) section div:first div:first span:first ').text().trim().replace("°", "");
-      WeatherData.wind = $('body div:nth-child(1) main div:nth-child(2) main div:nth-child(6) section div:nth-child(3) div:nth-child(2) div:nth-child(3) ').text().trim().replace(" km/s", "").replace("Wind Direction", ""); 
-      WeatherData.humidity = $('body div:nth-child(1) main div:nth-child(2) main div:nth-child(6) section div:nth-child(3) div:nth-child(3) div:nth-child(3)').text().trim().replace("%", "");
-      WeatherData.uvindex = $('body div:nth-child(1) main div:nth-child(2) main div:nth-child(6) section div:nth-child(3) div:nth-child(6) div:nth-child(3)').text().trim();
-      WeatherData.fog = $('body div:nth-child(1) main div:nth-child(2) main div:nth-child(6) section div:nth-child(3) div:nth-child(7) div:nth-child(3)').text().trim();
-     }
+      WeatherData.feelslike = $('div:first main div:nth-child(2) main div:nth-child(6) section div:first div:first span:first ').text().trim().replace("°", "");
+
+      $(element).find('div:nth-child(1) main div:nth-child(2) main div:nth-child(6) section div:nth-child(3) ').each((index, element) => {
+      WeatherData.wind = $(element).find('div:nth-child(2) div:nth-child(3) ').text().trim().replace(" km/s", "").replace("Wind Direction", ""); 
+      WeatherData.humidity = $(element).find('div:nth-child(3) div:nth-child(3)').text().trim().replace("%", "");
+      WeatherData.uvindex = $(element).find('div:nth-child(6) div:nth-child(3)').text().trim();
+      WeatherData.fog = $(element).find('div:nth-child(7) div:nth-child(3)').text().trim();
+    })}
 
      else
     {
-      WeatherData.feelslike = $('body div:first main div:nth-child(2) main div:nth-child(5) section div:first div:first span:first ').text().trim().replace("°", "");
-      WeatherData.wind = $('body div:nth-child(1) main div:nth-child(2) main div:nth-child(4) section div:nth-child(3) div:nth-child(2) div:nth-child(3) ').text().trim().replace(" km/s", "").replace("Wind Direction", ""); 
-      WeatherData.humidity = $('body div:nth-child(1) main div:nth-child(2) main div:nth-child(4) section div:nth-child(3) div:nth-child(3) div:nth-child(3)').text().trim().replace("%", "");
-      WeatherData.uvindex = $('body div:nth-child(1) main div:nth-child(2) main div:nth-child(4) section div:nth-child(3) div:nth-child(6) div:nth-child(3)').text().trim();
-      WeatherData.fog = $('body div:nth-child(1) main div:nth-child(2) main div:nth-child(4) section div:nth-child(3) div:nth-child(7) div:nth-child(3)').text().trim();
-     }
+      WeatherData.feelslike = $('div:first main div:nth-child(2) main div:nth-child(5) section div:first div:first span:first ').text().trim().replace("°", "");
+      
+      $(element).find('div:nth-child(1) main div:nth-child(2) main div:nth-child(4) section div:nth-child(3) ').each((index, element) => {
+      WeatherData.wind = $(element).find('div:nth-child(2) div:nth-child(3) ').text().trim().replace(" km/s", "").replace("Wind Direction", ""); 
+      WeatherData.humidity = $(element).find('div:nth-child(3) div:nth-child(3)').text().trim().replace("%", "");
+      WeatherData.uvindex = $(element).find('div:nth-child(6) div:nth-child(3)').text().trim();
+      WeatherData.fog = $(element).find('div:nth-child(7) div:nth-child(3)').text().trim();
+    })}
+     
 
     instantweather.push({ ...WeatherData });  
+  });
 
     ErrorSwitchInstantWeather = 0;
     await WeatherStatus();
@@ -139,7 +150,7 @@ ${instantweather[0].snows_6} ${instantweather[0].snowfall_6} cm
 `, {parse_mode: 'Markdown'});
 }    
 
-else if (instantweather[0].rain === '' || hourlyweather[i].rain < 60){ SleetAlert = 0; SnowAlert = 0; RainAlert= 0;}
+else if (instantweather[0].rain === ''){ SleetAlert = 0; SnowAlert = 0; RainAlert= 0;}
 
 }
 

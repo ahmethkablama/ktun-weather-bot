@@ -47,7 +47,7 @@ git clone https://github.com/ahmethkablama/ktun-recent-earthquakes-bot
 ```bash
 npm install
 ```
-3. Create `.env` file based on `.env-example` file
+3. Create `.env` file based on `.env.example` file
 4. Fill in the `YOUR_API_TOKEN` and `YOUR_ID` sections in the `.env` file according to you
 5. install `npm` from terminal
 6. Run it with the command `npm run start` or `node bot.js`

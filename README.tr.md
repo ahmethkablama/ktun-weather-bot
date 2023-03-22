@@ -47,7 +47,7 @@ Komut                   | Açıklama
    ```bash
    npm install
    ```
-3. `.env-example` dosyasına göre `.env` dosyasını oluşturun
+3. `.env.example` dosyasına göre `.env` dosyasını oluşturun
 4. `.env` dosyasının içinde `YOUR_API_TOKEN` ve `YOUR_ID` kısımlarını kendinize göre doldurun
 5. terminalden `npm` kurulumunu gerçekleştirin
 6. `npm run start` veya `node bot.js` komutuyla çalıştırın
