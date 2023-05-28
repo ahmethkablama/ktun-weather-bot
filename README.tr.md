@@ -26,6 +26,16 @@ Komut                   | Açıklama
 `/hakkinda`             | Proje GitHub bağlantısı ve geliştirici iletişimi
 
 
+<p align="center">
+    <img src="https://github.com/ahmethkablama/ktun-weather-bot/assets/29388602/831dcb62-57e1-4cb3-b3a6-a9ec8a39f344" width="350" hspace="10" >
+    <img src="https://github.com/ahmethkablama/ktun-weather-bot/assets/29388602/36b66eba-4799-4fa1-9f10-6a3b35c18b9d" width="350" hspace="10" >
+</p>
+
+<p align="center">
+    <img src="https://github.com/ahmethkablama/ktun-weather-bot/assets/29388602/81575f57-cd8c-4158-be76-ee8e3395d3c1" width="350" hspace="10" >
+    <img src="https://github.com/ahmethkablama/ktun-weather-bot/assets/29388602/c20ea647-9cf3-43cd-98b4-f3d248095f2c" width="350" hspace="10" >
+</p>
+
 ## Hazırlık
 1. Resmi Telegram botu [@BotFather](https://telegram.me/BotFather) aracılığı ile bot oluştur ve API TOKEN'i alın
 2. Grup adıyla gönderilen ve kendinize ait bir mesajı [@userinfobot](https://telegram.me/userinfobot) botuna gönderin ve ID leri kopyalayın
