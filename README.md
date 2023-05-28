@@ -55,7 +55,7 @@ Command                 | Explanation
    npm install
    ```
 3. Create `.env` file based on `.env-example` file
-4.Replace `YOUR_API`, `YOUR_ID` and `GROUP_ID` in the `.env` file with [@userinfobot](https://telegram.me/userinfobot) and [@userinfobot](https://telegram.me/userinfobot) Fill according to API and IDs found in bots
+4.Replace `YOUR_API`, `YOUR_ID` and `GROUP_ID` in the `.env` file with [@BotFather](https://telegram.me/BotFather) and [@userinfobot](https://telegram.me/userinfobot) Fill according to API and IDs found in bots
 5. install `npm` from terminal
 6. Run it with the command `npm run start` or `node bot.js`
 
@@ -67,7 +67,7 @@ Command                 | Explanation
 2. Create an empty folder with your bot's name in your server's home directory
 3. Upload bot files to the folder you created
 4. Create `.env` file based on `.env-example` file
-5. Replace `YOUR_API`, `YOUR_ID` and `GROUP_ID` in the `.env` file with [@userinfobot](https://telegram.me/userinfobot) and [@userinfobot](https://telegram.me/userinfobot) Fill according to API and IDs found in bots
+5. Replace `YOUR_API`, `YOUR_ID` and `GROUP_ID` in the `.env` file with [@BotFather](https://telegram.me/BotFather) and [@userinfobot](https://telegram.me/userinfobot) Fill according to API and IDs found in bots
 6. From your server panel (described as Cpanel) go to the `Setup Node.js App` tab
 7. Go to the step of creating a new application by clicking the `CREATE APPLICATION` button
 8. Select the appropriate Node.js version and mode. Type your bot's path and startup file (designated as `bot.js`)
