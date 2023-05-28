@@ -24,14 +24,15 @@ Command                 | Explanation
 `/komutlar`             | Bot commands
 `/hakkinda`             | Project GitHub link and developer communication
 
+
 <p align="center">
-    <img src="https://www.teknovudu.com/medya/2023/05/Apple-Watch-Series-8-Ozellikleri-1392x783.jpg" width="400" hspace="10" >
-    <img src="https://www.teknovudu.com/medya/2023/05/Apple-Watch-Series-8-Ozellikleri-1392x783.jpg" width="400" hspace="10" >
+    <img src="https://github.com/ahmethkablama/ktun-weather-bot/assets/29388602/831dcb62-57e1-4cb3-b3a6-a9ec8a39f344" width="300" hspace="10" >
+    <img src="https://github.com/ahmethkablama/ktun-weather-bot/assets/29388602/36b66eba-4799-4fa1-9f10-6a3b35c18b9d" width="300" hspace="10" >
 </p>
 
 <p align="center">
-    <img src="https://www.teknovudu.com/medya/2023/05/Apple-Watch-Series-8-Ozellikleri-1392x783.jpg" width="400" hspace="10" >
-    <img src="https://www.teknovudu.com/medya/2023/05/Apple-Watch-Series-8-Ozellikleri-1392x783.jpg" width="400" hspace="10" >
+    <img src="https://github.com/ahmethkablama/ktun-weather-bot/assets/29388602/81575f57-cd8c-4158-be76-ee8e3395d3c1" width="300" hspace="10" >
+    <img src="https://github.com/ahmethkablama/ktun-weather-bot/assets/29388602/c20ea647-9cf3-43cd-98b4-f3d248095f2c" width="300" hspace="10" >
 </p>
 
 ## Preparation
