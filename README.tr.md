@@ -56,7 +56,7 @@ Komut                   | Açıklama
    npm install
    ```
 3. `.env-example` dosyasına göre `.env` dosyasını oluşturun
-4. `.env` dosyasının içinde bulunan `YOUR_API`, `YOUR_ID` ve `GROUP_ID` kısımlarını [@userinfobot](https://telegram.me/userinfobot) ve [@userinfobot](https://telegram.me/userinfobot) botlarında bulunan API ve ID lere göre doldurun
+4. `.env` dosyasının içinde bulunan `YOUR_API`, `YOUR_ID` ve `GROUP_ID` kısımlarını [@BotFather](https://telegram.me/BotFather) ve [@userinfobot](https://telegram.me/userinfobot) botlarında bulunan API ve ID lere göre doldurun
 5. terminalden `npm` kurulumunu gerçekleştirin
 6. `npm run start` veya `node bot.js` komutuyla çalıştırın
 
@@ -69,7 +69,7 @@ Komut                   | Açıklama
 2. Sunucunuzun ana dizinine botunuzun adıyla boş bir klasör oluşturun
 3. Oluşturduğunuz klasöre bot dosyalarını yükleyin
 4. `.env-example` dosyasına göre `.env` dosyasını oluşturun
-5. `.env` dosyasının içinde bulunan `YOUR_API`, `YOUR_ID` ve `GROUP_ID` kısımlarını [@userinfobot](https://telegram.me/userinfobot) ve [@userinfobot](https://telegram.me/userinfobot) botlarında bulunan API ve ID lere göre doldurun
+5. `.env` dosyasının içinde bulunan `YOUR_API`, `YOUR_ID` ve `GROUP_ID` kısımlarını [@BotFather](https://telegram.me/BotFather) ve [@userinfobot](https://telegram.me/userinfobot) botlarında bulunan API ve ID lere göre doldurun
 6. Sunucu panelinizden (Cpanel olarak tarif edilmektedir) `Setup Node.js App` sekmesine gidin
 7. `CREATE APPLİCATİON` butonuna tıklayarak yeni bir uygulama oluşturma adımına gidin
 8. Uygun Node.js versiyonunu ve modunu seçin. Botunuzun dosya yolunu ve başlangıç dosyasını (`bot.js` olarak belirlenmiştir) yazın
