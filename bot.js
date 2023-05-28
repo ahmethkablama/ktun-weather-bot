@@ -27,6 +27,8 @@ let RainAlert= 1; let SnowAlert = 1; let SleetAlert = 1;
 let ErrorSwitchInstantWeather = 0, ErrorSwitchWeather10Day = 0, ErrorSwitchWeather24Hour = 0;
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 async function setInstantWeatherData() {
   WeatherStatusKey = 1;
   let WeatherData = {
@@ -71,22 +73,22 @@ async function setInstantWeatherData() {
     {
       WeatherData.feelslike = $('div:first main div:nth-child(2) main div:nth-child(6) section div:first div:first span:first ').text().trim().replace("°", "");
 
-      $(element).find('div:nth-child(1) main div:nth-child(2) main div:nth-child(6) section div:nth-child(3) ').each((index, element) => {
-      WeatherData.wind = $(element).find('div:nth-child(2) div:nth-child(3) ').text().trim().replace(" km/s", "").replace("Wind Direction", ""); 
-      WeatherData.humidity = $(element).find('div:nth-child(3) div:nth-child(3)').text().trim().replace("%", "");
-      WeatherData.uvindex = $(element).find('div:nth-child(6) div:nth-child(3)').text().trim();
-      WeatherData.fog = $(element).find('div:nth-child(7) div:nth-child(3)').text().trim();
+      $(element).find('div:nth-child(1) main div:nth-child(2) main div:nth-child(6) section ').each((index, element) => {
+      WeatherData.wind = $(element).find('div:nth-child(2) div:last').text().trim().replace(" km/s", "").replace("Wind Direction", ""); 
+      WeatherData.humidity = $(element).find('div:nth-child(3) div:nth-child(3) div:last').text().trim().replace("%", "");
+      WeatherData.uvindex = $(element).find('div:nth-child(6) div:last').text().trim();
+      WeatherData.fog = $(element).find('div:nth-child(7) div:last').text().trim();
     })}
 
      else
     {
       WeatherData.feelslike = $('div:first main div:nth-child(2) main div:nth-child(5) section div:first div:first span:first ').text().trim().replace("°", "");
       
-      $(element).find('div:nth-child(1) main div:nth-child(2) main div:nth-child(4) section div:nth-child(3) ').each((index, element) => {
-      WeatherData.wind = $(element).find('div:nth-child(2) div:nth-child(3) ').text().trim().replace(" km/s", "").replace("Wind Direction", ""); 
-      WeatherData.humidity = $(element).find('div:nth-child(3) div:nth-child(3)').text().trim().replace("%", "");
-      WeatherData.uvindex = $(element).find('div:nth-child(6) div:nth-child(3)').text().trim();
-      WeatherData.fog = $(element).find('div:nth-child(7) div:nth-child(3)').text().trim();
+      $(element).find('div:nth-child(1) main div:nth-child(2) main div:nth-child(4) section ').each((index, element) => {
+      WeatherData.wind = $(element).find('div:nth-child(2) div:last').text().trim().replace(" km/s", "").replace("Wind Direction", ""); 
+      WeatherData.humidity = $(element).find('div:nth-child(3) div:nth-child(3) div:last').text().trim().replace("%", "");
+      WeatherData.uvindex = $(element).find('div:nth-child(6) div:last').text().trim();
+      WeatherData.fog = $(element).find('div:nth-child(7) div:last').text().trim();
     })}
      
 
@@ -101,10 +103,14 @@ async function setInstantWeatherData() {
     //console.log(err);
     ErrorSwitchInstantWeather = 1;
   } 
-    //console.log(`${instantweather[0].snows_1} ${instantweather[0].snowfall_1}`);
-    //console.log(`${instantweather[0].fog}`);
+
+    //console.log(`${instantweather[0].wind}`);
+
 } 
 
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const getWindandTemperatureJob = new CronJob('* * * * *', async () => { 
   latitude = 38.0089681; 
@@ -120,12 +126,12 @@ const getWindandTemperatureJob = new CronJob('* * * * *', async () => {
 
 for (i = 0; i <= 2; i++) {
 
-if (instantweather[0].rain == 'Yağmur' && hourlyweather[i].rain > 60 && RainAlert== 0) { RainAlert= 1; SnowAlert = 0; SleetAlert = 0;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `🌧️ *YAĞMUR UYARISI* 🌧️ \n\n${instantweather[0].rainstatus}`, {parse_mode: 'Markdown'});
+if (instantweather[0].rain == 'Yağmur' && hourlyweather[i].rain > 65 && RainAlert== 0) { RainAlert= 1; SnowAlert = 0; SleetAlert = 0;
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `🌧️ *YAĞMUR UYARISI* 🌧️ \n\n${instantweather[0].rainstatus}`, {parse_mode: 'Markdown'});
 }
 
 else if (instantweather[0].rain == 'Kar' && SnowAlert == 0 && instantweather[0].snowfall_2 > 2 && instantweather[0].snowfall_3 > 2 ) { SnowAlert = 1; RainAlert= 0; SleetAlert = 0;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `🌨️ *KAR UYARISI* 🌨️ \n${instantweather[0].rainstatus}
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `🌨️ *KAR UYARISI* 🌨️ \n${instantweather[0].rainstatus}
     
 ${instantweather[0].snowfall}
 ${instantweather[0].snows_1} ${instantweather[0].snowfall_1} cm
@@ -138,7 +144,7 @@ ${instantweather[0].snows_6} ${instantweather[0].snowfall_6} cm
 }
 
 else if (instantweather[0].rain == 'Karla Karışık Yağmur' && SleetAlert == 0 && instantweather[0].snowfall_2 > 2 && instantweather[0].snowfall_3 > 2) { SleetAlert = 1; RainAlert= 0; SnowAlert = 0;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `🌧️ *KARLA KARIŞIK YAĞMUR UYARISI* 🌨️ \n${instantweather[0].rainstatus}
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `🌧️ *KARLA KARIŞIK YAĞMUR UYARISI* 🌨️ \n${instantweather[0].rainstatus}
      
 ${instantweather[0].snowfall}
 ${instantweather[0].snows_1} ${instantweather[0].snowfall_1} cm
@@ -155,98 +161,72 @@ else if (instantweather[0].rain === ''){ SleetAlert = 0; SnowAlert = 0; RainAler
 }
 
 if (parseInt(instantweather[0].feelslike) >= 55 && S1An == 0 && S2An == 1 && S3An == 1 && S4An == 0 && S5An == 0 && S6An == 0 && S7An == 0) { S1An = 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *YÜKSEK SICAKLIK UYARISI* 🔥 \n\nHissedilen sıcaklık *54°C* 'yi aşarak "*ÇOK TEHLİKELİ SICAK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Isı veya güneş çarpması tehlikesi oluşur. Termal şok an meselesidir.*`, {parse_mode: 'Markdown'})}
-
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *YÜKSEK SICAKLIK UYARISI* 🔥 \n\nHissedilen sıcaklık *54°C* 'yi aşarak "*ÇOK TEHLİKELİ SICAK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Isı veya güneş çarpması tehlikesi oluşur. Termal şok an meselesidir.*`, {parse_mode: 'Markdown'})}
 else if (parseInt(instantweather[0].feelslike) <= 54 && parseInt(instantweather[0].feelslike) >= 42 && S1An == 0 && S2An == 0 && S3An == 1 && S4An == 0 && S5An == 0 && S6An == 0 && S7An == 0) { S2An = 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *YÜKSEK SICAKLIK UYARISI* 🔥 \n\nHissedilen sıcaklık *41°C* 'yi aşarak "*TEHLİKELİ SICAK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Güneş çarpması, ısı krampları veya ısı bitkinliği meydana gelebilir.*`, {parse_mode: 'Markdown'})}
-
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *YÜKSEK SICAKLIK UYARISI* 🔥 \n\nHissedilen sıcaklık *41°C* 'yi aşarak "*TEHLİKELİ SICAK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Güneş çarpması, ısı krampları veya ısı bitkinliği meydana gelebilir.*`, {parse_mode: 'Markdown'})}
 else if (parseInt(instantweather[0].feelslike) <= 41 && parseInt(instantweather[0].feelslike) >= 33 && S1An == 0 && S2An == 0 && S3An == 0 && S4An == 0 && S5An == 0 && S6An == 0 && S7An == 0) { S3An = 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *YÜKSEK SICAKLIK UYARISI* 🥵 \n\nHissedilen sıcaklık *32°C* 'yi aşarak "*ÇOK SICAK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Fiziksel etkinliğe ve etkilenme süresine bağlı olarak kuvvetli termal stres ile birlikte ısı çarpması ısı krampları ve ısı yorgunlukları oluşabilir.*`, {parse_mode: 'Markdown'})}
-
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *YÜKSEK SICAKLIK UYARISI* 🥵 \n\nHissedilen sıcaklık *32°C* 'yi aşarak "*ÇOK SICAK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Fiziksel etkinliğe ve etkilenme süresine bağlı olarak kuvvetli termal stres ile birlikte ısı çarpması ısı krampları ve ısı yorgunlukları oluşabilir.*`, {parse_mode: 'Markdown'})}
 else if (parseInt(instantweather[0].feelslike) > -6 && parseInt(instantweather[0].feelslike) < 28) { S1An = 0; S2An = 0; S3An = 0; S4An = 0; S5An = 0; S6An = 0; S7An = 0;}
-
 else if (parseInt(instantweather[0].feelslike) <= -11 && parseInt(instantweather[0].feelslike) >= -19 && S1An == 0 && S2An == 0 && S3An == 0 && S4An == 0 && S5An == 0 && S6An == 0 && S7An == 0) { S4An = 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *DÜŞÜK SICAKLIK UYARISI* 🥶 \n\nHissedilen sıcaklık *-10°C* 'yi aşarak "*ÇOK SOĞUK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Kuru ciltte 5 saatten daha az sürede çatlama ve rüzgâr ısırığı riski.*`, {parse_mode: 'Markdown'})}
-
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *DÜŞÜK SICAKLIK UYARISI* 🥶 \n\nHissedilen sıcaklık *-10°C* 'yi aşarak "*ÇOK SOĞUK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Kuru ciltte 5 saatten daha az sürede çatlama ve rüzgâr ısırığı riski.*`, {parse_mode: 'Markdown'})}
 else if (parseInt(instantweather[0].feelslike) <= -20 && parseInt(instantweather[0].feelslike) >= -34 && S1An == 0 && S2An == 0 && S3An == 0 && S4An == 1 && S5An == 0 && S6An == 0 && S7An == 0) { S5An = 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *ÇOK DÜŞÜK SICAKLIK UYARISI* 🥶 \n\nHissedilen sıcaklık *-25°C* 'yi aşarak "*AŞIRI SOĞUK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Açıkta kalan vücut yüzeylerinde 1 dakika içinde donma riski.*`, {parse_mode: 'Markdown'})}
-
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *ÇOK DÜŞÜK SICAKLIK UYARISI* 🥶 \n\nHissedilen sıcaklık *-25°C* 'yi aşarak "*AŞIRI SOĞUK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Açıkta kalan vücut yüzeylerinde 1 dakika içinde donma riski.*`, {parse_mode: 'Markdown'})}
 else if (parseInt(instantweather[0].feelslike) <= -35 && parseInt(instantweather[0].feelslike) >= -50 && S1An == 0 && S2An == 0 && S3An == 0 && S4An == 1 && S5An == 1 && S6An == 0 && S7An == 0) { S6An = 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *AŞŞIRI DÜŞÜK SICAKLIK UYARISI* ❄️ \n\nHissedilen sıcaklık *-45°C* 'yi aşarak "*TEHLİKELİ SOĞUK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Açıkta kalan vücut yüzeylerinde 30 saniye içinde donma riski.*`, {parse_mode: 'Markdown'})}
-
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *AŞŞIRI DÜŞÜK SICAKLIK UYARISI* ❄️ \n\nHissedilen sıcaklık *-45°C* 'yi aşarak "*TEHLİKELİ SOĞUK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Açıkta kalan vücut yüzeylerinde 30 saniye içinde donma riski.*`, {parse_mode: 'Markdown'})}
 
 
 if (parseInt(instantweather[0].wind) <= 20 ) { R1An = 0; R2An = 0; R3An = 0; R4An = 0; R5An = 0; R6An = 0; R7An = 0;}
-
 else if (parseInt(instantweather[0].wind) <= 40 && parseInt(instantweather[0].wind) > 28 && R1An == 0 && R2An == 0 && R3An == 0 && R4An == 0 && R5An == 0 && R6An == 0 && R7An == 0) { R1An = 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *KUVVETLİ RÜZGAR UYARISI* 🌬 \n\nAnlık rüzgar *28km/s* hızı aşarak *${instantweather[0].wind}km/s* hıza ulaşmıştır.`, {parse_mode: 'Markdown'})}
-
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *KUVVETLİ RÜZGAR UYARISI* 🌬 \n\nAnlık rüzgar *28km/s* hızı aşarak *${instantweather[0].wind}km/s* hıza ulaşmıştır.`, {parse_mode: 'Markdown'})}
 else if (parseInt(instantweather[0].wind) <= 50 && parseInt(instantweather[0].wind) > 40 && R1An == 1 && R2An == 0 && R3An == 0 && R4An == 0 && R5An == 0 && R6An == 0 && R7An == 0) { R2An = 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *FIRTINA RÜZGARI UYARISI* 💨 \n\nAnlık rüzgar *40km/s* hızı aşarak *${instantweather[0].wind}km/s* hıza ulaşmıştır.`, {parse_mode: 'Markdown'})}
-
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *FIRTINA RÜZGARI UYARISI* 💨 \n\nAnlık rüzgar *40km/s* hızı aşarak *${instantweather[0].wind}km/s* hıza ulaşmıştır.`, {parse_mode: 'Markdown'})}
 else if (parseInt(instantweather[0].wind) <= 60 && parseInt(instantweather[0].wind) > 50 && R1An == 1 && R2An == 1 && R3An == 0 && R4An == 0 && R5An == 0 && R6An == 0 && R7An == 0) { R3An = 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *FIRTINA UYARISI* 💨 \n\nAnlık rüzgar *50km/s* hızı aşarak *${instantweather[0].ruzgarn}km/s* hıza ulaşmıştır.`, {parse_mode: 'Markdown'})}
-
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *FIRTINA UYARISI* 💨 \n\nAnlık rüzgar *50km/s* hızı aşarak *${instantweather[0].ruzgarn}km/s* hıza ulaşmıştır.`, {parse_mode: 'Markdown'})}
 else if (parseInt(instantweather[0].wind) <= 75 && parseInt(instantweather[0].wind) > 60 && R1An == 1 && R2An == 1 && R3An == 1 && R4An == 0 && R5An == 0 && R6An == 0 && R7An == 0) { R4An = 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *KUVVETLİ FIRTINA UYARISI* 🌪 \n\nAnlık rüzgar *60km/s* hızı aşarak *${instantweather[0].wind}km/s* hıza ulaşmıştır.`, {parse_mode: 'Markdown'})}
-
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *KUVVETLİ FIRTINA UYARISI* 🌪 \n\nAnlık rüzgar *60km/s* hızı aşarak *${instantweather[0].wind}km/s* hıza ulaşmıştır.`, {parse_mode: 'Markdown'})}
 else if (parseInt(instantweather[0].wind) <= 90 && parseInt(instantweather[0].wind) > 75 && R1An == 1 && R2An == 1 && R3An == 1 && R4An == 1 && R5An == 0 && R6An == 0 && R7An == 0) { R5An = 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *BÜYÜK FIRTINA UYARISI* 🌪 \n\nAnlık rüzgar *75km/s°C* hızı aşarak *${instantweather[0].wind}km/s* hıza ulaşmıştır.`, {parse_mode: 'Markdown'})}
-
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *BÜYÜK FIRTINA UYARISI* 🌪 \n\nAnlık rüzgar *75km/s°C* hızı aşarak *${instantweather[0].wind}km/s* hıza ulaşmıştır.`, {parse_mode: 'Markdown'})}
 else if (parseInt(instantweather[0].wind) <= 100 && parseInt(instantweather[0].wind) > 90 && R1An == 1 && R2An == 1 && R3An == 1 && R4An == 1 && R5An == 1 && R6An == 0 && R7An == 0) { R6An = 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *ÇOK BÜYÜK FIRTINA UYARISI* 🌪 \n\nAnlık rüzgar *90km/s* hızı aşarak *${instantweather[0].wind}km/s* hıza ulaşmıştır.`, {parse_mode: 'Markdown'})}
-
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *ÇOK BÜYÜK FIRTINA UYARISI* 🌪 \n\nAnlık rüzgar *90km/s* hızı aşarak *${instantweather[0].wind}km/s* hıza ulaşmıştır.`, {parse_mode: 'Markdown'})}
 else if (parseInt(instantweather[0].wind) >= 100 && R1An == 1 && R2An == 1 && R3An == 1 && R4An == 1 && R5An == 1 && R6An == 1 && R7An == 0) { R7An = 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *KASIRGA UYARISI* 🌪 \n\nAnlık rüzgar *100km/s* hızı aşarak *${instantweather[0].wind}km/s* hıza ulaşmıştır.`, {parse_mode: 'Markdown'})}
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *KASIRGA UYARISI* 🌪 \n\nAnlık rüzgar *100km/s* hızı aşarak *${instantweather[0].wind}km/s* hıza ulaşmıştır.`, {parse_mode: 'Markdown'})}
 
 
 if (parseInt(instantweather[0].feelslike) >= 55 && S1An == 0 && S2An == 1 && S3An == 1 && S4An == 0 && S5An == 0 && S6An == 0 && S7An == 0) { S1An = 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *YÜKSEK SICAKLIK UYARISI* 🔥 \n\nHissedilen sıcaklık *54°C* 'yi aşarak "*ÇOK TEHLİKELİ SICAK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Isı veya güneş çarpması tehlikesi oluşur. Termal şok an meselesidir.*`, {parse_mode: 'Markdown'})}
-
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *YÜKSEK SICAKLIK UYARISI* 🔥 \n\nHissedilen sıcaklık *54°C* 'yi aşarak "*ÇOK TEHLİKELİ SICAK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Isı veya güneş çarpması tehlikesi oluşur. Termal şok an meselesidir.*`, {parse_mode: 'Markdown'})}
 else if (parseInt(instantweather[0].feelslike) <= 54 && parseInt(instantweather[0].feelslike) >= 42 && S1An == 0 && S2An == 0 && S3An == 1 && S4An == 0 && S5An == 0 && S6An == 0 && S7An == 0) { S2An = 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *YÜKSEK SICAKLIK UYARISI* 🔥 \n\nHissedilen sıcaklık *41°C* 'yi aşarak "*TEHLİKELİ SICAK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Güneş çarpması, ısı krampları veya ısı bitkinliği meydana gelebilir.*`, {parse_mode: 'Markdown'})}
-
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *YÜKSEK SICAKLIK UYARISI* 🔥 \n\nHissedilen sıcaklık *41°C* 'yi aşarak "*TEHLİKELİ SICAK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Güneş çarpması, ısı krampları veya ısı bitkinliği meydana gelebilir.*`, {parse_mode: 'Markdown'})}
 else if (parseInt(instantweather[0].feelslike) <= 41 && parseInt(instantweather[0].feelslike) >= 33 && S1An == 0 && S2An == 0 && S3An == 0 && S4An == 0 && S5An == 0 && S6An == 0 && S7An == 0) { S3An = 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *YÜKSEK SICAKLIK UYARISI* 🥵 \n\nHissedilen sıcaklık *32°C* 'yi aşarak "*ÇOK SICAK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Fiziksel etkinliğe ve etkilenme süresine bağlı olarak kuvvetli termal stres ile birlikte ısı çarpması ısı krampları ve ısı yorgunlukları oluşabilir.*`, {parse_mode: 'Markdown'})}
-
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *YÜKSEK SICAKLIK UYARISI* 🥵 \n\nHissedilen sıcaklık *32°C* 'yi aşarak "*ÇOK SICAK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Fiziksel etkinliğe ve etkilenme süresine bağlı olarak kuvvetli termal stres ile birlikte ısı çarpması ısı krampları ve ısı yorgunlukları oluşabilir.*`, {parse_mode: 'Markdown'})}
 else if (parseInt(instantweather[0].feelslike) > -6 && parseInt(instantweather[0].feelslike) < 28) { S1An = 0; S2An = 0; S3An = 0; S4An = 0; S5An = 0; S6An = 0; S7An = 0;}
-
 else if (parseInt(instantweather[0].feelslike) <= -11 && parseInt(instantweather[0].feelslike) >= -19 && S1An == 0 && S2An == 0 && S3An == 0 && S4An == 0 && S5An == 0 && S6An == 0 && S7An == 0) { S4An = 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *DÜŞÜK SICAKLIK UYARISI* 🥶 \n\nHissedilen sıcaklık *-10°C* 'yi aşarak "*ÇOK SOĞUK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Kuru ciltte 5 saatten daha az sürede çatlama ve rüzgâr ısırığı riski.*`, {parse_mode: 'Markdown'})}
-
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *DÜŞÜK SICAKLIK UYARISI* 🥶 \n\nHissedilen sıcaklık *-10°C* 'yi aşarak "*ÇOK SOĞUK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Kuru ciltte 5 saatten daha az sürede çatlama ve rüzgâr ısırığı riski.*`, {parse_mode: 'Markdown'})}
 else if (parseInt(instantweather[0].feelslike) <= -20 && parseInt(instantweather[0].feelslike) >= -34 && S1An == 0 && S2An == 0 && S3An == 0 && S4An == 1 && S5An == 0 && S6An == 0 && S7An == 0) { S5An = 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *ÇOK DÜŞÜK SICAKLIK UYARISI* 🥶 \n\nHissedilen sıcaklık *-25°C* 'yi aşarak "*AŞIRI SOĞUK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Açıkta kalan vücut yüzeylerinde 1 dakika içinde donma riski.*`, {parse_mode: 'Markdown'})}
-
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *ÇOK DÜŞÜK SICAKLIK UYARISI* 🥶 \n\nHissedilen sıcaklık *-25°C* 'yi aşarak "*AŞIRI SOĞUK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Açıkta kalan vücut yüzeylerinde 1 dakika içinde donma riski.*`, {parse_mode: 'Markdown'})}
 else if (parseInt(instantweather[0].feelslike) <= -35 && parseInt(instantweather[0].feelslike) >= -50 && S1An == 0 && S2An == 0 && S3An == 0 && S4An == 1 && S5An == 1 && S6An == 0 && S7An == 0) { S6An = 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *AŞŞIRI DÜŞÜK SICAKLIK UYARISI* ❄️ \n\nHissedilen sıcaklık *-45°C* 'yi aşarak "*TEHLİKELİ SOĞUK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Açıkta kalan vücut yüzeylerinde 30 saniye içinde donma riski.*`, {parse_mode: 'Markdown'})}
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *AŞŞIRI DÜŞÜK SICAKLIK UYARISI* ❄️ \n\nHissedilen sıcaklık *-45°C* 'yi aşarak "*TEHLİKELİ SOĞUK*" kategorisi olan *${instantweather[0].feelslike}°C* 'ye ulaşmıştır. \n\n*Açıkta kalan vücut yüzeylerinde 30 saniye içinde donma riski.*`, {parse_mode: 'Markdown'})}
 
 
 if (parseFloat(instantweather[0].fog) >= 10.0 || instantweather[0].fog == "Sınırsız") { SU1 = 0; SU2 = 0; SU3 = 0; SU4 = 0; SU5 = 0;}
-
 else if (parseFloat(instantweather[0].fog) >= 2.0 && parseFloat(instantweather[0].fog) < 5.0 && SU1 == 0 && SU2 == 0 && SU3 == 0 && SU4 == 0 && SU5 == 0) { SU1 == 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *HAFİF PUS UYARISI* 💨 \n\nGörüş mesafesi *5 km* 'den *${instantweather[0].fog}* 'ye düşmüştür.`, {parse_mode: 'Markdown'})}
-    
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *HAFİF PUS UYARISI* 💨 \n\nGörüş mesafesi *5 km* 'den *${instantweather[0].fog}* 'ye düşmüştür.`, {parse_mode: 'Markdown'})}
 else if (parseFloat(instantweather[0].fog) >= 1.0 && parseFloat(instantweather[0].fog) < 2.0 && SU1 == 1 && SU2 == 0 && SU3 == 0 && SU4 == 0 && SU5 == 0) { SU2 == 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *YOĞUN PUS UYARISI* 💨 \n\nGörüş mesafesi *2 km* 'den *${instantweather[0].fog}* 'ye düşmüştür.`, {parse_mode: 'Markdown'})}
-    
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *YOĞUN PUS UYARISI* 💨 \n\nGörüş mesafesi *2 km* 'den *${instantweather[0].fog}* 'ye düşmüştür.`, {parse_mode: 'Markdown'})}
 else if (parseFloat(instantweather[0].fog) >= 0.5 && parseFloat(instantweather[0].fog) < 1.0 && SU1 == 1 && SU2 == 1 && SU3 == 0 && SU4 == 0 && SU5 == 0) { SU3 == 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *HAFİF SİS UYARISI* 🌫 \n\nGörüş mesafesi *1 km* 'den *${instantweather[0].fog}* 'ye düşmüştür.`, {parse_mode: 'Markdown'})}
-  
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *HAFİF SİS UYARISI* 🌫 \n\nGörüş mesafesi *1 km* 'den *${instantweather[0].fog}* 'ye düşmüştür.`, {parse_mode: 'Markdown'})}
 else if (parseFloat(instantweather[0].fog) >= 0.1 && parseFloat(instantweather[0].fog) < 0.5 && SU1 == 1 && SU2 == 1 && SU3 == 1 && SU4 == 0 && SU5 == 0) { SU4 == 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *YOĞUN SİS UYARISI* 🌫 \n\nGörüş mesafesi *0.5 km* 'den *${instantweather[0].fog}* 'ye düşmüştür.`, {parse_mode: 'Markdown'})}
-    
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *YOĞUN SİS UYARISI* 🌫 \n\nGörüş mesafesi *0.5 km* 'den *${instantweather[0].fog}* 'ye düşmüştür.`, {parse_mode: 'Markdown'})}
 else if (parseFloat(instantweather[0].fog) <= 0.1 && SU1 == 1 && SU2 == 1 && SU3 == 1 && SU4 == 1 && SU5 == 0) { SU5 == 1;
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, `⚠️ *ÇOK YOĞUN SİS UYARISI* 🌫 \n\nGörüş mesafesi *0.1 km* 'den *${instantweather[0].fog}* 'ye düşmüştür.`, {parse_mode: 'Markdown'})}
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, `⚠️ *ÇOK YOĞUN SİS UYARISI* 🌫 \n\nGörüş mesafesi *0.1 km* 'den *${instantweather[0].fog}* 'ye düşmüştür.`, {parse_mode: 'Markdown'})}
 
-}});
-
+}})
 
 
 async function WeatherStatus() {
   FeelingWeather = parseInt(instantweather[0].feelslike);
    //console.log(FeelingWeather);
   
-    if (typeof (FeelingWeather) <= '-60' ) { FeelingStatus = "çok tehlikeli soğuk"; }
+    if ((FeelingWeather) <= '-60' ) { FeelingStatus = "çok tehlikeli soğuk"; }
     else if (FeelingWeather <= '-45' && FeelingWeather > '-59') { FeelingStatus = "tehlikeli soğuk"; }
     else if (FeelingWeather <= '-25' && FeelingWeather > '-45') { FeelingStatus = "aşırı soğuk"; }
     else if (FeelingWeather <= '-9' && FeelingWeather > '-25') { FeelingStatus = "çok soğuk"; }
@@ -261,7 +241,7 @@ async function WeatherStatus() {
     else if (FeelingWeather >= '55') { FeelingStatus = "çok tehlikeli sıcak"; }
     else { FeelingStatus = "bilinmiyor"; }
   //console.log(FeelingStatus);
-  }
+}
   
 
 
@@ -276,9 +256,10 @@ const getWeatherJob = new CronJob('00 09 * 0-5,8-11 1-5', async () => {
   await WeatherStatus();
   await WeatherTranslationAndEmoji();
 
-  bot.telegram.sendMessage(process.env.TELEGRAM_ID, WeatherGroupShare(), {parse_mode: 'Markdown'}, {disable_notification: true}); 
+  bot.telegram.sendMessage(process.env.TELEGRAM_GROUP_ID, WeatherGroupShare(), {parse_mode: 'Markdown'}, {disable_notification: true}); 
   
 }});
+
 
 function WeatherGroupShare() {
 return `
@@ -296,9 +277,6 @@ return `
 💧Nem: *%${instantweather[0].humidity}*  🍃 Rüzgar: *${instantweather[0].wind}km/s*  ☀️ UV: *${instantweather[0].uvindex.replace(" / ", "/").replace("/10", "")}*
 🌆 Gündüz:*${instantweather[0].highlow.replace("Gün", "").replace("Gece", "C*  🌃 Gece:*").replace(" • ", "")}C*  🕣 ${instantweather[0].time.replace("EET itibariyle", "")}
 `}
-
-
-
 
 
 
@@ -477,6 +455,7 @@ async function WeatherTranslationAndEmoji() {
     else if (ConditionWeather[i] == 'Partly Cloudy') { ConditionWeather[i] = "Parçalı Bulutlu 🌥"; }
     else if (ConditionWeather[i] == 'Cloudy') { ConditionWeather[i] = "Bulutlu ☁️"; }
     else if (ConditionWeather[i] == 'Scattered Showers Night') { ConditionWeather[i] = "Hafif Yağışlı Gece 🌧🌙"; }
+    else if (ConditionWeather[i] == 'Thunderstorm') { ConditionWeather[i] = "Fırtına 🌪️"; }
     else if (ConditionWeather[i] == 'Scattered Showers') { ConditionWeather[i] = "Hafif Yağışlı 🌧"; }
     else if (ConditionWeather[i] == 'Rain') { ConditionWeather[i] = "Sağnak Yağışlı 🌧"; }
     else if (ConditionWeather[i] == 'Rain and Snow') { ConditionWeather[i] = "Karla Karışık Yağmur 🌧"; }
@@ -503,17 +482,16 @@ async function startBot() {
 
 bot.use(throttler);
 
-bot.start((ctx) =>  ctx.replyWithMarkdown(`Selamun Aleyküm *${ctx.from.first_name}* 🙂 hoş geldin
+bot.start(async (ctx) => { bot.telegram.sendMessage(ctx.chat.id,`Selamun Aleyküm *${ctx.from.first_name}* 🙂 hoş geldin
+\nBot ile *The Weather Channel* sitesinden (weather.com) alınan verilerle Konya Teknik Üniversitesi merkezli hava durumu bilgilerini görüntüleyebilirsiniz.
+\nTüm komutları görüntülemek için sol alttaki *☰ Menü* bölümünü kullanabilirsiniz.`, {disable_web_page_preview: true , parse_mode: 'Markdown'})
+if (ctx.chat.id != 1705065791) bot.telegram.sendMessage(process.env.TELEGRAM_YOUR_ID,`🆔 ${ctx.chat.id}\n👤 @${ctx.chat.username || '-'}\n😊 ${ctx.from.first_name || '-'} ${ctx.from.last_name || '-'}\n💬 ${ctx.message.text || '-'}`);
+})
 
-Bot aracılığı ile *The Weather Channel* sitesinden (weather.com) alınan verilerle Konya Teknik Üniversitesi merkezli hava durumu bilgilerini görüntüleyebilirsiniz.
-
-Tüm komutları görüntülemek için */komutlar* kullanabilir veya alttaki *☰ Menü* bölümünü kullanabilirsiniz.
-
-`).then(function(resp) {}).catch(function(err) {})
-);
 
  
 bot.command('komutlar', async ctx => {
+  bot.telegram.sendMessage(process.env.TELEGRAM_YOUR_ID,`🆔 ${ctx.chat.id}\n👤 @${ctx.chat.username || '-'}\n😊 ${ctx.from.first_name || '-'} ${ctx.from.last_name || '-'}\n💬 ${ctx.message.text || '-'}`);
 
 ctx.replyWithMarkdown(`Aşağıdaki komutlara tıklayarak ilgili bilgileri çağırabilirsiniz.
 
@@ -529,7 +507,7 @@ ctx.replyWithMarkdown(`Aşağıdaki komutlara tıklayarak ilgili bilgileri çağ
 
 
 bot.command('anlik', async ctx => {
-
+  bot.telegram.sendMessage(process.env.TELEGRAM_YOUR_ID,`🆔 ${ctx.chat.id}\n👤 @${ctx.chat.username || '-'}\n😊 ${ctx.from.first_name || '-'} ${ctx.from.last_name || '-'}\n💬 ${ctx.message.text || '-'}`);
   latitude = 38.0089681; longitude = 32.5200461;
   await setInstantWeatherData(); await WeatherTranslationAndEmoji(); 
 
@@ -544,6 +522,7 @@ bot.command('anlik', async ctx => {
 
 
  bot.command('bugun', async ctx => {
+  bot.telegram.sendMessage(process.env.TELEGRAM_YOUR_ID,`🆔 ${ctx.chat.id}\n👤 @${ctx.chat.username || '-'}\n😊 ${ctx.from.first_name || '-'} ${ctx.from.last_name || '-'}\n💬 ${ctx.message.text || '-'}`);
   latitude = 38.0089681; longitude = 32.5200461;
   await setWeather10Day(); await WeatherTranslationAndEmoji();
 
@@ -556,6 +535,7 @@ bot.command('anlik', async ctx => {
 });
 
  bot.command('yarin', async ctx => {
+  bot.telegram.sendMessage(process.env.TELEGRAM_YOUR_ID,`🆔 ${ctx.chat.id}\n👤 @${ctx.chat.username || '-'}\n😊 ${ctx.from.first_name || '-'} ${ctx.from.last_name || '-'}\n💬 ${ctx.message.text || '-'}`);
   latitude = 38.0089681; longitude = 32.5200461;
   await setWeather10Day(); await WeatherTranslationAndEmoji();
 
@@ -568,6 +548,7 @@ bot.command('anlik', async ctx => {
 });
 
  bot.command('ongunluk', async ctx => {
+  bot.telegram.sendMessage(process.env.TELEGRAM_YOUR_ID,`🆔 ${ctx.chat.id}\n👤 @${ctx.chat.username || '-'}\n😊 ${ctx.from.first_name || '-'} ${ctx.from.last_name || '-'}\n💬 ${ctx.message.text || '-'}`);
   latitude = 38.0089681; longitude = 32.5200461;
   await setWeather10Day(); await WeatherTranslationAndEmoji();
 
@@ -580,6 +561,7 @@ bot.command('anlik', async ctx => {
 });
 
  bot.command('saatlik', async ctx => {
+  bot.telegram.sendMessage(process.env.TELEGRAM_YOUR_ID,`🆔 ${ctx.chat.id}\n👤 @${ctx.chat.username || '-'}\n😊 ${ctx.from.first_name || '-'} ${ctx.from.last_name || '-'}\n💬 ${ctx.message.text || '-'}`);
   latitude = 38.0089681; longitude = 32.5200461;
   await setWeather24Hour(); await WeatherTranslationAndEmoji();
   if (ErrorSwitchWeather24Hour == 1){
@@ -591,6 +573,7 @@ bot.command('anlik', async ctx => {
 });
 
 bot.command('konumhava', (ctx) => {
+bot.telegram.sendMessage(process.env.TELEGRAM_YOUR_ID,`🆔 ${ctx.chat.id}\n👤 @${ctx.chat.username || '-'}\n😊 ${ctx.from.first_name || '-'} ${ctx.from.last_name || '-'}\n💬 ${ctx.message.text || '-'}`);
 bot.telegram.sendMessage(ctx.chat.id,  "*Lütfen altta bulunan 📎 ataç ikonundan mevcut konumunuzu paylaşın.*", {parse_mode: 'Markdown'}).then(function(resp) {}).catch(function(err) {});
 
 bot.on('location', async (ctx) => {
@@ -674,11 +657,14 @@ bot.on('location', async (ctx) => {
 
 });
 
-bot.command('iletisim', async ctx => {
-  ctx.telegram.sendChatAction(ctx.chat.id, 'typing')
-  ctx.replyWithMarkdown(`Bot ile ilgili sorun, şikayet ve önerilerinizi *@ahmethkablama* 'ya iletebilirsiniz`)
-  }
-);
+bot.command('hakkinda', async (ctx) => {
+bot.telegram.sendMessage(ctx.chat.id,`Proje açık kaynak olarak [GitHub](https://github.com/ahmethkablama/ktun-weather-bot) üzerinden geliştirilmektedir. Siz de projeye katılarak geliştirilmesine yardımcı olabilirsiniz.
+    
+Yazılım ile ilgili sorun, öneri ve görüşlerinizi @ahmethkablama 'ya iletebilirsiniz. 
+
+[LinkedIn](https://www.linkedin.com/in/ahmethkablama/) | [Instagram](https://www.instagram.com/ahmethkablama/) | [Web](http://ahmethkablama.com/)`, {parse_mode: 'Markdown' , disable_web_page_preview: true});
+bot.telegram.sendMessage(process.env.TELEGRAM_YOUR_ID,`🆔 ${ctx.chat.id}\n👤 @${ctx.chat.username || '-'}\n😊 ${ctx.from.first_name || '-'} ${ctx.from.last_name || '-'}\n💬 ${ctx.message.text || '-'}`);
+});
 
 bot.launch();
 
